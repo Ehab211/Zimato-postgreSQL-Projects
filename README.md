@@ -1181,7 +1181,7 @@ Please ensure your code follows existing style and includes comments where neces
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details. It is intended for educational and demonstration purposes only.
-```
+
 ## Author - Ehab Yousry
 
 This project is part of my portfolio, showcasing the SQL skills essential for data analyst roles. If you have any questions, feedback, or would like to collaborate, feel free to get in touch!
