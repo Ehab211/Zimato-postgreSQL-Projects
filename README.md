@@ -1,4 +1,3 @@
-```markdown
 # Zomato-like Food Delivery Database & Analytics (PostgreSQL)
 
 ## Project Overview
@@ -54,26 +53,10 @@ The database is designed to manage key entities in a food delivery ecosystem: cu
     *   Revenue and growth analysis (restaurant revenue ranking, monthly/yearly growth).
     *   Cancellation rates, rider earnings, and seasonal trends.
 
+### Entity Relationship Diagram (Conceptual)
 ## Database Schema
 ![ERD](images/Erd.jpg)
 
-### Entity Relationship Diagram (Conceptual)
-
-```
-+-------------+      +-----------------+      +-------------+
-|  customer   |----*-|      orders     |*-----|  restaurant |
-+-------------+      +-----------------+      +-------------+
-      |                        |
-      |                        |1
-      |                        |
-      |                        |*
-      |                +-------------+      +-------------+
-      +----------------|   delivery    |----*-|   riders    |
-                       +-------------+      +-------------+
-
--- Each core table above also has a corresponding _logs table for auditing.
--- e.g., customer -> customer_logs
-```
 
 ### Core Tables
 
@@ -160,10 +143,10 @@ This database employs a robust auditing system using PostgreSQL triggers and PL/
     *   Insert a new record into the respective log table with these details.
 3.  **Triggers**: An `AFTER INSERT OR UPDATE OR DELETE` trigger (e.g., `trg_log_customer_changes`) is created for each primary table. This trigger executes the associated trigger function *after* any data modification operation on a row.
 
-**Example (Customer Logging):**
 
+**Example (Customer Logging):**
 *   Function: `log_customer_changes()`
-    ```sql
+```sql
 CREATE OR REPLACE FUNCTION log_customer_changes()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -201,7 +184,7 @@ BEGIN
     RETURN NULL; -- Should not be reached
 END;
 $$ LANGUAGE plpgsql;
-    ```
+```
 This pattern is replicated for all core tables requiring auditing.
 
 ## Database Indexes
@@ -236,6 +219,7 @@ More indexes can be added based on specific query patterns and performance analy
 * Selects 1 random food items from a predefined list for order_items.
 
 * Assigns a sequential order_id.
+## Script:
 
 ```sql
 DO $$
@@ -344,10 +328,10 @@ with
 SELECT STRING_AGG(random_status_selected, ', ')
 INTO random_status
 FROM (
-	        select random_status_selected
-    from status_table
-    ORDER BY RANDOM()
-	        LIMIT FLOOR(RANDOM() * 3 + 1)
+	    select random_status_selected
+        from status_table
+        ORDER BY RANDOM()
+	    LIMIT FLOOR(RANDOM() * 1 + 1)
 	    );
 	
 		-- Insert the generated random orders into the orders table
@@ -1196,5 +1180,5 @@ Please ensure your code follows existing style and includes comments where neces
 
 ## License
 
-it is for educational/demonstration purposes free to use it.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. It is intended for educational and demonstration purposes only.
 ```
