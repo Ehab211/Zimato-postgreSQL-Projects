@@ -1,0 +1,82 @@
+DO $
+$
+DECLARE
+    i INT;
+    random_foods TEXT;
+	order_id int;
+	customer_id int;
+	restaurant_id int;
+	order_date date;
+	order_time time;
+	order_status varchar
+(10);
+	total_amount float;
+BEGIN
+	-- Loop through 10 rows
+	FOR i IN 1..10000 LOOP
+        -- تعيين order_id مباشرة
+        order_id := i;
+customer_id := FLOOR
+(RANDOM
+() * 33) + 1;
+		restaurant_id := FLOOR
+(RANDOM
+() * 68) +1;
+		order_date := TO_CHAR
+(
+            TIMESTAMP '01-05-2024' + FLOOR
+(RANDOM
+() * 366) * INTERVAL '1 day',
+            'DD/MM/YYYY'
+        );
+		order_time := TO_CHAR
+(
+			TIME '00:00:00' + FLOOR
+(RANDOM
+() * 86400) * INTERVAL '1 second',
+            'HH24:MI:SS'
+		);
+-- Random total_amount between 120 and 1500
+total_amount:
+= FLOOR
+(RANDOM
+() *
+(1500 - 120 + 1)) + 120;
+-- Random status
+IF RANDOM() < 0.5 THEN
+            order_status := 'complete';
+        ELSE
+            order_status := 'incomplete';
+END
+IF;
+		with
+	food_items_table
+	as
+	(
+		select UNNEST(ARRAY[
+			    'Roast Chicken', 'House Salad', 'Water Bottle', 'Grilled Salmon', 'Garlic Bread',
+			    'Spaghetti Carbonara', 'Steak', 'French Fries', 'Pizza Margherita', 'Cheeseburger',
+			    'Vegetable Stir Fry', 'Caesar Salad', 'Fish Tacos', 'Tomato Soup', 'Ice Cream',
+			    'Chocolate Cake', 'Apple Pie', 'Chicken Wings', 'Pasta Bolognese', 'Sushi Roll',
+			    'Fried Rice', 'Curry', 'BBQ Ribs', 'Lamb Chops', 'Egg Sandwich', 'Club Sandwich',
+			    'Margarita', 'Orange Juice', 'Latte', 'Espresso'
+			]) AS food_item
+	)
+-- Generate random food items for each row
+SELECT STRING_AGG(food_item, ', ')
+INTO random_foods
+FROM (
+			select food_item
+	from food_items_table
+	ORDER BY RANDOM()
+            LIMIT FLOOR(RANDOM() * 1 + 1)
+        );
+
+	-- Insert the generated random orders into the orders table
+        -- Print or Insert the result
+        INSERT INTO orders
+(order_id, customer_id, restaurant_id, order_items, order_date, order_time, order_status, total_amount)
+	values
+(order_id, customer_id, restaurant_id, random_foods, order_date, order_time, order_status, total_amount);
+END LOOP;
+END $$;
