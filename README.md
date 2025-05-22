@@ -1180,5 +1180,5 @@ Please ensure your code follows existing style and includes comments where neces
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. It is intended for educational and demonstration purposes only.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.txt) file for details. It is intended for educational and demonstration purposes only.
 ```
